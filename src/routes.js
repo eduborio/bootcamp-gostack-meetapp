@@ -10,6 +10,7 @@ const routes = new Router();
 
 const uploader = multer(multerConfig);
 
+routes.get('/users', users.index);
 routes.post('/users', users.store);
 routes.post('/sessions', session.store);
 

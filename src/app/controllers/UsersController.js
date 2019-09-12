@@ -1,7 +1,22 @@
+import Sequelize from 'sequelize';
 import * as Yup from 'yup';
 import User from '../models/User';
+import File from '../models/File';
 
 class UsersController {
+  async index(req, res) {
+    const Op = Sequelize.Op;
+    const users = await User.findAll({
+      where: { [Op.not]: { name: null } },
+      attributes: ['id', 'name', 'email'],
+      include: [
+        { model: File, as: 'avatar', attributes: ['name', 'path', 'url'] },
+      ],
+    });
+
+    return res.json(users);
+  }
+
   async store(req, res) {
     const { name, email } = req.body;
 
